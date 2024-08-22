@@ -6,7 +6,8 @@ import Error from "./Error";
 import Starscreen from "./Starscreen";
 import Question from "./Question";
 import NextButton from "./NextButton";
-import Progress from "./Progress"
+import Progress from "./Progress";
+import FinisheScreen from "./FinisheScreen";
 import { useEffect, useReducer } from "react";
 const initalstate  = {
   
@@ -39,6 +40,8 @@ function reducer(state, action){
            : state.points }
            case "nextQuestion"  :
             return {...state , index : state.index + 1 , answer : null}
+            case "finished" :
+              return {...state , status : "finished"}
              default:
       throw new Error("Action unknow")
   }
@@ -83,9 +86,11 @@ const maxPossiblePoints = state.questions.reduce((prev , cur)=> prev + cur.point
           answer={state.answer}
          />
       <Question question={state.questions.at(state.index)} dispatch={dispatch} answer={state.answer}/> 
-      <NextButton dispatch={dispatch} answer={state.answer}/>
+      <NextButton dispatch={dispatch} answer={state.answer} numQuestion={numQuestion} index={state.index}/>
       </>
       }
+    <NextButton />
+      {state.status === "finished" && <FinisheScreen points={state.points} maxPossiblePoints={maxPossiblePoints}/>}
        </Main>
     </div>
   );
