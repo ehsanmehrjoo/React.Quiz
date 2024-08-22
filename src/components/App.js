@@ -89,7 +89,7 @@ const maxPossiblePoints = state.questions.reduce((prev , cur)=> prev + cur.point
       <NextButton dispatch={dispatch} answer={state.answer} numQuestion={numQuestion} index={state.index}/>
       </>
       }
-    <NextButton />
+
       {state.status === "finished" && <FinisheScreen points={state.points} maxPossiblePoints={maxPossiblePoints}/>}
        </Main>
     </div>
