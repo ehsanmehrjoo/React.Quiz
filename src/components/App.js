@@ -22,30 +22,49 @@ const initalstate  = {
 }
 function reducer(state, action){
   switch(action.type){
-    case "dataReceives": 
-    return {...state, questions: action.payload,
+    case "dataReceives":{
+     return {...state, questions: action.payload,
       status: "ready"
-    }
-  case "start":
+    } 
+    } 
+    
+  case "start":{
     return {...state, status: "active"}
-    case "dataFailed" :
-      return {...state, status: "Error"}
-      case "newAnswer" : 
-      const question = state.questions.at(state.index)
+  }
+    
+    case "dataFailed" :{
+         return {...state, status: "Error"}
+    }
+   
+      case "newAnswer" : {
+       const question = state.questions.at(state.index)
       return {
         ...state, 
         answer:action.payload ,
          points :
           action.payload === question.correctOption
            ? state.points + question.points 
-           : state.points }
-           case "nextQuestion"  :
-            return {...state , index : state.index + 1 , answer : null}
-            case "finished" :
-              return {  ...state,
+           : state.points } 
+      }
+      
+           case "nextQuestion"  :{
+             return {...state , index : state.index + 1 , answer : null}
+           }
+           
+            case "finished" :{
+                    return {  ...state,
                 status: "finished",
                 highscore:
-                  state.points > state.highscore ? state.points : state.highscore,}
+                  state.points > state.highscore ? state.points : state.highscore,} 
+            }
+       
+            case "restarting": {
+              return {...state , questions: action.payload, status: "ready",
+                       status: "active"
+    
+    }
+            }
+          
              default:
       throw new Error("Action unknow")
   }
@@ -94,7 +113,7 @@ const maxPossiblePoints = state.questions.reduce((prev , cur)=> prev + cur.point
       </>
       }
 
-      {state.status === "finished" && <FinisheScreen highscore={state.highscore} points={state.points} maxPossiblePoints={maxPossiblePoints}/>}
+      {state.status === "finished" && <FinisheScreen dispatch={dispatch} highscore={state.highscore} points={state.points} maxPossiblePoints={maxPossiblePoints}/>}
        </Main>
     </div>
   );
