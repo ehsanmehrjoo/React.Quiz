@@ -59,10 +59,8 @@ function reducer(state, action){
             }
        
             case "restarting": {
-              return {...state , questions: action.payload, status: "ready",
-                       status: "active"
-    
-    }
+              return {...initalstate , questions: state.question, status: "ready" }
+              // return {...state ,  index : 0, answer : null, points : 0, highscore: 0, status: "ready"}
             }
           
              default:
