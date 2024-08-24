@@ -1,12 +1,12 @@
 
- function FinisheScreen ({points, maxPossiblePoints ,highscore , dispatch})  {
+ function FinisheScreen ({points, maxPossiblePoints , HighScore , dispatch})  {
     const percentage = (points / maxPossiblePoints) * 100;
   return (
     <>
     <p className="result">
     🤔You scored <strong>{points}</strong> out of {maxPossiblePoints} ({Math.ceil(percentage)}%)
     </p>
-    <p className="highscore">(Highscore: {highscore} points)</p>
+    <p className="highscore">(Highscore: {HighScore} points)</p>
 
     <button className="btn btn-ui" type="button" onClick={() => dispatch({type: "restarting"})}>Restart quiz </button>
     </>
