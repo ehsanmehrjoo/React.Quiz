@@ -9,6 +9,7 @@
     <p className="highscore">(Highscore: {HighScore} points)</p>
 
     <button className="btn btn-ui" type="button" onClick={() => dispatch({type: "restarting"})}>Restart quiz </button>
+    <button className="btn " type="button" onClick={() => dispatch({type: "ReviewAnswers"})}>Review the answers </button>
     </>
     
   );

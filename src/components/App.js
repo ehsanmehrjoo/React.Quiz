@@ -1,7 +1,7 @@
 import "./index.css";
 import Header from "./Header";
 import Main from "./Main";
-import Loader  from "./Loader";
+import Loader from "./Loader";
 import Error from "./Error";
 import Starscreen from "./Starscreen";
 import Question from "./Question";
@@ -9,42 +9,53 @@ import NextButton from "./NextButton";
 import Progress from "./Progress";
 import FinisheScreen from "./FinisheScreen";
 import Timer from "./Timer";
-import Footer from "./Footer"
+import Footer from "./Footer";
+import ReviewAnswers from "./ReviewAnswers";
 import { useEffect, useReducer } from "react";
 
-const SECS_PER_QUESTION = 30
-const initalstate   = {
-  questions : [],
-  
-   // 'loading', 'error', 'ready', 'active', 'finished'
-   status: "loading", // corrected status
-   index: 0,
-   answer: null,
-   points: 0,
-   HighScore: 0,
-   secondsRemaining: null,
-}
+const SECS_PER_QUESTION = 30;
+const initialState = {
+  questions: [],
+  status: "loading",
+  index: 0,
+  answer: null,
+  points: 0,
+  HighScore: 0,
+  secondsRemaining: null,
+};
+
 function reducer(state, action) {
   switch (action.type) {
-    case "dataReceives":
+    case "dataReceived":
       return { ...state, questions: action.payload, status: "ready" };
     case "start":
-      return { ...state, status: "active",
-        secondsRemaining : state.questions.length * SECS_PER_QUESTION
-       };
-    case "dataFailed":
-      return { ...state, status: "error" }; // Corrected to "error"
-    case "newAnswer": {
-      const question = state.questions.at(state.index);
       return {
         ...state,
-        answer: action.payload,
-        points:
-          action.payload === question.correctOption
-            ? state.points + question.points
-            : state.points,
+        status: "active",
+        secondsRemaining: state.questions.length * SECS_PER_QUESTION,
       };
-    }
+    case "dataFailed":
+      return { ...state, status: "error" };
+      case "newAnswer": {
+        const updatedQuestions = state.questions.map((question, index) =>
+          index === state.index
+            ? { ...question, answer: action.payload }  // ذخیره پاسخ در سوال فعلی
+            : question
+        );
+      
+        const question = updatedQuestions[state.index];
+        
+        return {
+          ...state,
+          questions: updatedQuestions,
+          points:
+            action.payload === question.correctOption
+              ? state.points + question.points
+              : state.points,
+          answer: action.payload,
+        };
+      }
+      
     case "nextQuestion":
       return { ...state, index: state.index + 1, answer: null };
     case "finished":
@@ -55,19 +66,24 @@ function reducer(state, action) {
           state.points > state.HighScore ? state.points : state.HighScore,
       };
     case "restarting":
-      return {...initalstate, questions  : state.questions , status: "ready" }
-      case "tick" : {
-        return {...state , secondsRemaining : state.secondsRemaining - 1,
-          status : state.secondsRemaining === 0 ? "finished" : state.status,
-        }
-      }
+      return { ...initialState, questions: state.questions, status: "ready" };
+    case "tick": {
+      const newSecondsRemaining = state.secondsRemaining - 1;
+      return {
+        ...state,
+        secondsRemaining: newSecondsRemaining,
+        status: newSecondsRemaining === 0 ? "finished" : state.status,
+      };
+    }
+    case "ReviewAnswers":
+      return { ...state, status: "review" }; // حالت جدید برای مرور پاسخ‌ها
     default:
       throw new Error("Action unknown");
   }
 }
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initalstate);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const numQuestion = state.questions?.length || 0;
   const maxPossiblePoints = state.questions.reduce(
@@ -84,7 +100,7 @@ export default function App() {
         return res.json();
       })
       .then((data) => {
-        dispatch({ type: "dataReceives", payload: data });
+        dispatch({ type: "dataReceived", payload: data });
       })
       .catch((err) => dispatch({ type: "dataFailed", payload: err }));
   }, []);
@@ -113,14 +129,13 @@ export default function App() {
               answer={state.answer}
             />
             <Footer>
-
-            <Timer   dispatch={dispatch} secondsRemaining={state.secondsRemaining}/>
-            <NextButton
-              dispatch={dispatch}
-              answer={state.answer}
-              numQuestion={numQuestion}
-              index={state.index}
-            />
+              <Timer dispatch={dispatch} secondsRemaining={state.secondsRemaining} />
+              <NextButton
+                dispatch={dispatch}
+                answer={state.answer}
+                numQuestion={numQuestion}
+                index={state.index}
+              />
             </Footer>
           </>
         )}
@@ -130,6 +145,13 @@ export default function App() {
             HighScore={state.HighScore}
             points={state.points}
             maxPossiblePoints={maxPossiblePoints}
+          />
+        )}
+        {state.status === "review" && (
+          <ReviewAnswers
+            questions={state.questions}
+            dispatch={dispatch}
+            points={state.points}
           />
         )}
       </Main>
