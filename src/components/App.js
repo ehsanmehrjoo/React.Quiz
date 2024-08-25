@@ -8,7 +8,11 @@ import Question from "./Question";
 import NextButton from "./NextButton";
 import Progress from "./Progress";
 import FinisheScreen from "./FinisheScreen";
+import Timer from "./Timer";
+import Footer from "./Footer"
 import { useEffect, useReducer } from "react";
+
+const SECS_PER_QUESTION = 30
 const initalstate   = {
   questions : [],
   
@@ -18,13 +22,16 @@ const initalstate   = {
    answer: null,
    points: 0,
    HighScore: 0,
+   secondsRemaining: null,
 }
 function reducer(state, action) {
   switch (action.type) {
     case "dataReceives":
       return { ...state, questions: action.payload, status: "ready" };
     case "start":
-      return { ...state, status: "active" };
+      return { ...state, status: "active",
+        secondsRemaining : state.questions.length * SECS_PER_QUESTION
+       };
     case "dataFailed":
       return { ...state, status: "error" }; // Corrected to "error"
     case "newAnswer": {
@@ -49,6 +56,11 @@ function reducer(state, action) {
       };
     case "restarting":
       return {...initalstate, questions  : state.questions , status: "ready" }
+      case "tick" : {
+        return {...state , secondsRemaining : state.secondsRemaining - 1,
+          status : state.secondsRemaining === 0 ? "finished" : state.status,
+        }
+      }
     default:
       throw new Error("Action unknown");
   }
@@ -100,12 +112,16 @@ export default function App() {
               dispatch={dispatch}
               answer={state.answer}
             />
+            <Footer>
+
+            <Timer   dispatch={dispatch} secondsRemaining={state.secondsRemaining}/>
             <NextButton
               dispatch={dispatch}
               answer={state.answer}
               numQuestion={numQuestion}
               index={state.index}
             />
+            </Footer>
           </>
         )}
         {state.status === "finished" && (
