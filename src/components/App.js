@@ -119,7 +119,7 @@ export default function App() {
             <Progress />
             <Question />
             <Footer>
-              <Timer dispatch={dispatch} secondsRemaining={state.secondsRemaining} />
+              <Timer />
               <NextButton
                 dispatch={dispatch}
                 answer={state.answer}
