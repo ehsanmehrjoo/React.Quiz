@@ -1,7 +1,8 @@
-import { useQuiz } from "../Context/QuizContext";
+ 
+import useQuizState from "../hook/useQuizState";
 
 function ReviewAnswers() {
-  const {state , dispatch} = useQuiz();
+  const {state , dispatch} = useQuizState();
     return (
       <div className="review-answers">
         <h2>Review Your Answers</h2>
