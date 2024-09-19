@@ -1,10 +1,13 @@
-function ReviewAnswers({ questions, dispatch, points }) {
+import { useQuiz } from "../Context/QuizContext";
+
+function ReviewAnswers() {
+  const {state , dispatch} = useQuiz();
     return (
       <div className="review-answers">
         <h2>Review Your Answers</h2>
-        <p>You scored {points} points.</p>
+        <p>You scored {state.points} points.</p>
         <ul>
-          {questions.map((question, index) => (
+          {state.questions.map((question, index) => (
             <li key={index} className="review-item">
               <h3>Question {index + 1}: {question.question}</h3>
               <p>

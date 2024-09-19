@@ -120,29 +120,17 @@ export default function App() {
             <Question />
             <Footer>
               <Timer />
-              <NextButton
-                dispatch={dispatch}
-                answer={state.answer}
-                numQuestion={numQuestion}
-                index={state.index}
-              />
+              <NextButton />
             </Footer>
           </>
         )}
         {state.status === "finished" && (
           <FinisheScreen
-            dispatch={dispatch}
-            HighScore={state.HighScore}
-            points={state.points}
-            maxPossiblePoints={maxPossiblePoints}
+          
           />
         )}
         {state.status === "review" && (
-          <ReviewAnswers
-            questions={state.questions}
-            dispatch={dispatch}
-            points={state.points}
-          />
+          <ReviewAnswers />
         )}
       </Main>
     </div>

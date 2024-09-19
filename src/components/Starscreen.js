@@ -1,6 +1,9 @@
+import { useQuiz } from "../Context/QuizContext";
 
  
-  function Starscreen ({numQuestion, dispatch})  {
+  function Starscreen ()  {
+    const {numQuestion, dispatch} = useQuiz();
+
    return (
      <div className="start">
      <h2>Welcome to The React Quizt</h2>
