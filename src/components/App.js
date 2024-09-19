@@ -11,13 +11,13 @@ import FinisheScreen from "./FinisheScreen";
 import Timer from "./Timer";
 import Footer from "./Footer";
 import ReviewAnswers from "./ReviewAnswers";
-import { useQuiz } from "../Context/QuizContext";
+import useQuizState from "../hook/useQuizState";
 
  
 
 export default function App() {
  
-  const { state } = useQuiz();
+  const { state } = useQuizState();
   return (
     <div className="app">
       <Header />
