@@ -1,7 +1,8 @@
-import { useQuiz } from "../Context/QuizContext";
+ 
+import useQuizState from "../hook/useQuizState";
 
  function FinisheScreen ()  {
-  const {maxPossiblePoints , state , dispatch} = useQuiz();
+  const {maxPossiblePoints , state , dispatch} = useQuizState();
     const percentage = (state.points / maxPossiblePoints) * 100;
   return (
     <>
