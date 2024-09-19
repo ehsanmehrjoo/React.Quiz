@@ -1,7 +1,8 @@
-import { useQuiz } from "../Context/QuizContext";
+ 
+import useQuizState from "../hook/useQuizState";
 
  function Progress ()  {
-  const {state , numQuestion , maxPossiblePoints} = useQuiz();
+  const {state , numQuestion , maxPossiblePoints} = useQuizState();
   return (
     <header className="progress">
     <progress max={numQuestion} value={state.index +  Number(state.answer !== null) }></progress>
