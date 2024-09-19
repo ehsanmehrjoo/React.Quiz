@@ -117,11 +117,7 @@ export default function App() {
         {state.status === "active" && state.questions.length > 0 && (
           <>
             <Progress />
-            <Question
-              question={state.questions[state.index]}
-              dispatch={dispatch}
-              answer={state.answer}
-            />
+            <Question />
             <Footer>
               <Timer dispatch={dispatch} secondsRemaining={state.secondsRemaining} />
               <NextButton
