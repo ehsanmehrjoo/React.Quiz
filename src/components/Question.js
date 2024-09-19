@@ -1,8 +1,9 @@
-import { useQuiz } from "../Context/QuizContext";
+
+import useQuizState from "../hook/useQuizState";
 import Options from "./options";
 
 function Question() {
-  const { state, dispatch } = useQuiz();
+  const { state, dispatch } = useQuizState();
   
   // گرفتن سوال فعلی
   const currentQuestion = state.questions[state.index];
