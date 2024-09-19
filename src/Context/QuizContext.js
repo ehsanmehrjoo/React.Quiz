@@ -80,7 +80,7 @@ function QuizProvider({ children }) {
   );
 
   useEffect(() => {
-    fetch(`http://localhost:000/questions`)
+    fetch(`http://localhost:9000/questions`)
       .then((res) => {
         if (!res.ok) {
           throw new Error('Network response was not ok');
