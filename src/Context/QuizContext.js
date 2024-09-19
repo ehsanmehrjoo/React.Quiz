@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { createContext } from 'react'
 
-
+const QuizContext = createContext();
 function QuizProvider() {
   return (
-    <div>QuizProvider</div>
+     <QuizContext.Provider></QuizContext.Provider>
   )
 }
 
-export default Providertext
+export default QuizProvider
