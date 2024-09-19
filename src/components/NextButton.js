@@ -1,8 +1,9 @@
-import { useQuiz } from "../Context/QuizContext";
+ 
+import useQuizState from "../hook/useQuizState";
 
 
  function NextButton ()  {
-  const {state ,dispatch , numQuestion} = useQuiz();
+  const {state ,dispatch , numQuestion} = useQuizState();
 
     if(state.answer === null )return null
  if(state.index < numQuestion -1) return (
