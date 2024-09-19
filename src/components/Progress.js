@@ -1,10 +1,12 @@
+import { useQuiz } from "../Context/QuizContext";
 
- function Progress ({index, numQuestion, points , maxPossiblePoints, answer})  {
+ function Progress ()  {
+  const {state} = useQuiz();
   return (
     <header className="progress">
-    <progress max={numQuestion} value={index +  Number(answer !== null) }></progress>
-    <p>Question <strong>{index + 1}</strong> /{numQuestion}</p>
-    <p><strong>{points}</strong> / {maxPossiblePoints} points</p>
+    <progress max={state.numQuestion} value={state.index +  Number(state.answer !== null) }></progress>
+    <p>Question <strong>{state.index + 1}</strong> /{state.numQuestion}</p>
+    <p><strong>{state.points}</strong> / {state.maxPossiblePoints} points</p>
     </header>
   );
 };

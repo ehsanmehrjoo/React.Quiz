@@ -11,7 +11,7 @@ import FinisheScreen from "./FinisheScreen";
 import Timer from "./Timer";
 import Footer from "./Footer";
 import ReviewAnswers from "./ReviewAnswers";
-import { useEffect, useReducer } from "react";
+import { useQuiz } from "../Context/QuizContext";
 
 // const SECS_PER_QUESTION = 30;
 // const initialState = {
@@ -104,7 +104,7 @@ export default function App() {
   //     })
   //     .catch((err) => dispatch({ type: "dataFailed", payload: err }));
   // }, []);
-con
+  const { state,dispatch, numQuestion, maxPossiblePoints} = useQuiz();
   return (
     <div className="app">
       <Header />
@@ -116,13 +116,7 @@ con
         )}
         {state.status === "active" && state.questions.length > 0 && (
           <>
-            <Progress
-              index={state.index}
-              numQuestion={numQuestion}
-              points={state.points}
-              maxPossiblePoints={maxPossiblePoints}
-              answer={state.answer}
-            />
+            <Progress />
             <Question
               question={state.questions[state.index]}
               dispatch={dispatch}

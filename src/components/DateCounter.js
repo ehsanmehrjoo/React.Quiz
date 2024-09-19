@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 
 
 const initalstate = {count : 0 , step : 1}

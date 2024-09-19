@@ -1,5 +1,6 @@
 
  function FinisheScreen ({points, maxPossiblePoints , HighScore , dispatch})  {
+  con
     const percentage = (points / maxPossiblePoints) * 100;
   return (
     <>
